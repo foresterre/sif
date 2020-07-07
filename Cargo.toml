@@ -1,0 +1,18 @@
+[package]
+name = "sif"
+version = "0.1.1"
+authors = ["Martijn Gribnau <garm@ilumeo.com>"]
+edition = "2018"
+license = "MIT OR Apache-2.0"
+description = "Small but convenient parameterized testing attribute macro for Rust"
+documentation = "https://docs.rs/sif"
+repository = "https://github.com/foresterre/sif"
+readme = "README.md"
+keywords = ["parameterized", "parametrized", "test", "unit-test", "junit"]
+categories = ["development-tools", "development-tools::testing"]
+
+[dependencies]
+sif_macro = { path = "sif_macro", version = "=0.1.0" }
+
+[workspace]
+members = ["expand", "sif_demo", "sif_demo_mini", "sif_macro"]

@@ -1,0 +1,29 @@
+[package]
+name = "sif_macro"
+version = "0.1.0"
+authors = ["Martijn Gribnau <garm@ilumeo.com>"]
+edition = "2018"
+license = "MIT OR Apache-2.0"
+description = "Part of Sif: attribute macro for parameterized tests"
+documentation = "https://docs.rs/sif_macro"
+repository = "https://github.com/foresterre/sif"
+readme = "../README.md"
+keywords = ["parameterized", "attribute", "test", "unit-test", "junit"]
+categories = ["development-tools", "development-tools::testing"]
+autotests = false
+
+
+[lib]
+proc-macro = true
+
+[[test]]
+name = "tests"
+path = "tests/cases.rs"
+
+[dependencies]
+proc-macro2 = "1"
+quote = "1"
+syn = { version = "1", features = ["full", "extra-traits"] }
+
+[dev-dependencies]
+trybuild = "1.0"

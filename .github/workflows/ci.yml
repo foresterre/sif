@@ -1,0 +1,114 @@
+# GitHub Actions workflow: CI for parameterized
+#
+# initially based on: https://github.com/BurntSushi/bstr/blob/master/.github/workflows/ci.yml
+# which is licensed under Apache License, Version 2.0 or MIT license
+
+name: "CI"
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+jobs:
+  test:
+    name: test
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        build: [pinned, stable, macos, win-gnu, win-msvc] # excluded: nightly
+        include:
+          # pinned rust version :: ubuntu
+          - build: pinned
+            os: ubuntu-18.04
+            rust: 1.36.0
+
+          # latest rust stable :: ubuntu
+          - build: stable
+            os: ubuntu-latest
+            rust: stable
+
+          # latest rust nightly :: ubuntu
+          # fixme: span of error position is different on nightly
+#          - build: nightly
+#            os: ubuntu-latest
+#            rust: nightly
+
+          # latest rust stable :: mac_os
+          - build: macos
+            os: macOS-latest
+            rust: stable
+
+          # latest rust stable :: windows + gnu
+          - build: win-gnu
+            os: windows-latest
+            rust: stable-x86_64-gnu
+
+          # latest rust stable :: windows + msvc
+          - build: win-msvc
+            os: windows-latest
+            rust: stable
+
+
+    steps:
+      - name: checkout.repo
+        uses: actions/checkout@v2
+      - name: install_rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: ${{ matrix.rust }}
+          override: true
+          profile: minimal
+
+      - name: build.workspace
+        uses: actions-rs/cargo@v1
+        with:
+          command: build
+          args: --verbose --all
+
+      - name: test.workspace.default_features
+        uses: actions-rs/cargo@v1
+        with:
+          command: test
+          args: --verbose --all
+
+      - name: test.workspace.all_features
+        uses: actions-rs/cargo@v1
+        with:
+          command: test
+          args: --verbose --all --all-features
+
+  rustfmt:
+    name: pipeline.rustfmt
+    runs-on: ubuntu-18.04
+    steps:
+      - name: checkout.repo
+        uses: actions/checkout@v2
+      - name: install.rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+          profile: minimal
+          components: rustfmt
+      - name: check.fmt
+        run: |
+          cargo fmt --all -- --check
+
+  clippy:
+    name: pipeline.clippy
+    runs-on: ubuntu-18.04
+    steps:
+      - name: checkout.repo
+        uses: actions/checkout@v2
+      - name: install.rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+          profile: minimal
+          components: clippy
+      - name: check.clippy
+        uses: actions-rs/clippy-check@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          args: --all-features --workspace
