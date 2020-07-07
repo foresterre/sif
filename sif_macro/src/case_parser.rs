@@ -88,7 +88,7 @@ pub(crate) enum SifAttribute {
 
 impl SifAttribute {
     fn attribute_as_ref(&self) -> Option<&Attribute> {
-        if let Self::Regular(attr) = self {
+        if let SifAttribute::Regular(attr) = self {
             Some(attr)
         } else {
             None
@@ -96,7 +96,7 @@ impl SifAttribute {
     }
 
     fn case_values_as_ref(&self) -> Option<&CaseValues> {
-        if let Self::Case(values) = self {
+        if let SifAttribute::Case(values) = self {
             Some(values)
         } else {
             None

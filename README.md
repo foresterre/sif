@@ -42,7 +42,7 @@ impl Home for NPC {
 #[case(NPC::Andre, "Astora")]
 #[case(NPC::Lautrec, "Carim")]
 #[case(NPC::Siegmeyer, "Catarina")]
-#[case(NPC::Solaire, "Astrora")]
+#[case(NPC::Solaire, "Astora")]
 fn npc_reigns_from_test(npc: NPC, place: &str) {
     assert_eq!(npc.reigns_from(), place)
 }
