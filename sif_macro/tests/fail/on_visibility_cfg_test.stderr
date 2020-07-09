@@ -1,0 +1,5 @@
+error[E0433]: failed to resolve: use of undeclared type or module `my_test`
+  --> $DIR/on_visibility_cfg_test.rs:13:5
+   |
+13 |     my_test::case_0(); // this is not ok
+   |     ^^^^^^^ use of undeclared type or module `my_test`

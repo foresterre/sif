@@ -1,5 +1,5 @@
 #[test]
-fn individual_cases() {
+fn trybuild_regular_environment() {
     let t = trybuild::TestCases::new();
     t.pass("tests/ok/comment_in_test_case.rs");
     t.pass("tests/ok/enum_arg.rs");
@@ -21,4 +21,11 @@ fn individual_cases() {
     t.compile_fail("tests/fail/inequal_amount_of_arg.rs");
     t.compile_fail("tests/fail/not_a_fn.rs");
     t.compile_fail("tests/fail/on_visibility.rs");
+    t.compile_fail("tests/fail/rename_without_followup_case_1.rs");
+    t.compile_fail("tests/fail/rename_without_followup_case_2.rs");
+    t.compile_fail("tests/fail/rename_without_followup_case_3.rs");
+
+    // these ones can't be handled by the current version of trycompile, since we always have a cfg(test)
+    // environment
+    t.compile_fail("tests/fail/on_visibility_cfg_test.rs");
 }

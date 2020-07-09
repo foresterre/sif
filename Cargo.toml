@@ -15,4 +15,4 @@ categories = ["development-tools", "development-tools::testing"]
 sif_macro = { path = "sif_macro", version = "=0.1.0" }
 
 [workspace]
-members = ["expand", "sif_demo", "sif_demo_mini", "sif_macro"]
+members = ["trycompile", "expand", "sif_demo", "sif_demo_mini", "sif_macro"]

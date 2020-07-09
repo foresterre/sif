@@ -1,0 +1,11 @@
+error: custom attribute panicked
+ --> $DIR/rename_without_followup_case_1.rs:4:1
+  |
+4 | #[parameterized]
+  | ^^^^^^^^^^^^^^^^
+  |
+  = help: message: [sif_macro] Found an unused 'rename' attribute for test 'my_test'; verify that you correctly put 'rename' attributes on top of 'case' attributes. On top, 'rename' attributes do not stack. Hints:
+          At test fn 'my_test':
+              Attribute 'after_case_on_nothing' [stack index: 1] used incorrectly
+
+          (note: stack index starts at 0, after #[parameterized] attribute)
