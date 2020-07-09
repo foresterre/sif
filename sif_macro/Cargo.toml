@@ -12,13 +12,16 @@ keywords = ["parameterized", "attribute", "test", "unit-test", "junit"]
 categories = ["development-tools", "development-tools::testing"]
 autotests = false
 
-
 [lib]
 proc-macro = true
 
 [[test]]
-name = "tests"
-path = "tests/cases.rs"
+name = "trybuild_cases"
+path = "tests/trybuild.rs"
+
+[[test]]
+name = "trycompile_cases"
+path = "tests/trycompile.rs"
 
 [dependencies]
 proc-macro2 = "1"
@@ -27,3 +30,4 @@ syn = { version = "1", features = ["full", "extra-traits"] }
 
 [dev-dependencies]
 trybuild = "1.0"
+trycompile = { path = "../trycompile" }

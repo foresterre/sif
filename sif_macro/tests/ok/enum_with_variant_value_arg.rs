@@ -40,7 +40,7 @@ impl Default for Pigment {
 #[parameterized]
 #[case(Color::Red(Pigment::new(5)))]
 #[case(Color::Yellow)]
-#[case(Color::Blue::default())]
+#[case(Color::Blue(Pigment::default()))]
 #[case(Color::Red(Pigment { material_id: 8 }))]
 fn my_test(v: Color) {
     assert_ne!(v.pigment(), 1)

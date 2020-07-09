@@ -8,8 +8,6 @@ extern crate sif_macro;
 #[case("2"
     // line 8 comment
 , 2)]
-fn my_test(v: &str, w: i32) {
-    assert_eq!(v.parse().unwrap(), w)
-}
+fn my_test(v: &str, w: i32) {}
 
 fn main() {}

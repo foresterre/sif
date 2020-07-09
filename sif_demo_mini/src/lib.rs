@@ -18,7 +18,7 @@ mod test_environment_scoped {
     #[case(one())]
     //#[case(_zero())] // case_3 should fail
     //#[case(0)] // case_4 should fail
-    fn expect_one(inner: u8) {
+    fn show_expect_one(inner: u8) {
         assert_eq!(inner, 1)
     }
 
@@ -26,7 +26,16 @@ mod test_environment_scoped {
     #[case(None)]
     //#[case(Some(()))] // case_1 should fail
     #[should_panic]
-    fn expect_panic(input: Option<()>) {
+    fn show_expect_panic(input: Option<()>) {
         input.unwrap()
+    }
+
+    #[parameterized]
+    #[rename(test_joes)]
+    #[case("Joes")]
+    #[rename(test_joey)]
+    #[case("Joey")]
+    fn show_rename_next_case(name: &str) {
+        assert!(name.starts_with("Joe"))
     }
 }
