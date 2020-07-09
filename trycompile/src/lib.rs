@@ -47,11 +47,17 @@ pub struct TestCases {
     pub(crate) queue: Vec<TestCase>,
 }
 
-impl TestCases {
-    pub fn new() -> TestCases {
+impl Default for TestCases {
+    fn default() -> Self {
         TestCases {
             queue: Vec::with_capacity(4096),
         }
+    }
+}
+
+impl TestCases {
+    pub fn new() -> TestCases {
+        TestCases::default()
     }
 
     pub fn should_pass<P: AsRef<std::path::Path>>(self, path: P) -> TestCases {
@@ -230,11 +236,11 @@ fn make_crate_with(crate_root: TempDir, dep_contents: &str) -> Result<TempDir> {
     let new_cargofile = crate_root.path().join("Cargo.toml");
 
     let mut file = File::create(&new_cargofile)?;
-    file.write(minimals)?;
+    file.write_all(minimals)?;
 
     // add [dependencies]
     // assume for this prototype we don't need dev-dependencies etc
-    file.write(dep_contents.as_bytes())?;
+    file.write_all(dep_contents.as_bytes())?;
     file.flush()?;
 
     // create src dir

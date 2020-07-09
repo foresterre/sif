@@ -1,6 +1,6 @@
 #[cfg(test)]
 mod test_environment_scoped {
-    use sif::parameterized;
+    use sif_macro::parameterized;
 
     enum NPC {
         Andre,
@@ -40,6 +40,6 @@ fn main() {
     let source = include_bytes!("usage.rs");
     eprintln!("Please pipe the stdout of this executable to an environment where you can run it with cfg(test) enabled (or copy the source in examples/usage.rs instead of piping it)");
     std::io::stdout()
-        .write(source)
+        .write_all(source)
         .expect("Unable to write to stdout");
 }
