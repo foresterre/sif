@@ -80,7 +80,7 @@ impl TestCases {
     pub fn into_runner(self) -> Result<impl Runner> {
         let cargo_file_dir = std::env::current_dir()?;
 
-        Ok(OofSeqRunner {
+        Ok(SeqRunner {
             cargo_file_dir,
             check_compile: self,
         })
@@ -159,12 +159,20 @@ pub trait Runner {
     fn run_test_cases(&self) -> Result<()>;
 }
 
-struct OofSeqRunner {
+struct SeqRunner {
     cargo_file_dir: PathBuf,
     check_compile: TestCases,
 }
 
-impl Runner for OofSeqRunner {
+impl Runner for SeqRunner {
+    #[cfg(windows)]
+    fn run_test_cases(&self) -> Result<()> {
+        eprintln!("[warn(trycompile)] Windows is currently not supported by this prototype... No actual tests will be run, but the runner will succeed...");
+
+        Ok(())
+    }
+
+    #[cfg(not(windows))]
     fn run_test_cases(&self) -> Result<()> {
         // this should probably be rustc, but to make it easy for ourselves, we use cargo instead,
         // as this is a prototype 🥰
