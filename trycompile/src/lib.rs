@@ -4,12 +4,14 @@
 //!
 //! Not production ready; in a messy state; prototype only
 
+#![cfg_attr(windows, allow(unused))]
+
 use eyre::{eyre, Result};
 use std::fs::File;
 use std::io::Write;
 use std::path::{Path, PathBuf};
 use std::process::{Command, ExitStatus};
-use tempfile::{tempdir, TempDir};
+use tempfile::TempDir;
 
 pub type TestFilePath = std::path::PathBuf;
 
@@ -80,7 +82,7 @@ impl TestCases {
     pub fn into_runner(self) -> Result<impl Runner> {
         let cargo_file_dir = std::env::current_dir()?;
 
-        Ok(OofSeqRunner {
+        Ok(SeqRunner {
             cargo_file_dir,
             check_compile: self,
         })
@@ -159,13 +161,23 @@ pub trait Runner {
     fn run_test_cases(&self) -> Result<()>;
 }
 
-struct OofSeqRunner {
+struct SeqRunner {
     cargo_file_dir: PathBuf,
     check_compile: TestCases,
 }
 
-impl Runner for OofSeqRunner {
+impl Runner for SeqRunner {
+    #[cfg(windows)]
     fn run_test_cases(&self) -> Result<()> {
+        eprintln!("[warn(trycompile)] Windows is currently not supported by this prototype... No actual tests will be run, but the runner will succeed...");
+
+        Ok(())
+    }
+
+    #[cfg(not(windows))]
+    fn run_test_cases(&self) -> Result<()> {
+        use tempfile::tempdir;
+
         // this should probably be rustc, but to make it easy for ourselves, we use cargo instead,
         // as this is a prototype 🥰
 
