@@ -4,12 +4,14 @@
 //!
 //! Not production ready; in a messy state; prototype only
 
+#![cfg_attr(windows, allow(unused))]
+
 use eyre::{eyre, Result};
 use std::fs::File;
 use std::io::Write;
 use std::path::{Path, PathBuf};
 use std::process::{Command, ExitStatus};
-use tempfile::{tempdir, TempDir};
+use tempfile::TempDir;
 
 pub type TestFilePath = std::path::PathBuf;
 
@@ -174,6 +176,8 @@ impl Runner for SeqRunner {
 
     #[cfg(not(windows))]
     fn run_test_cases(&self) -> Result<()> {
+        use tempfile::tempdir;
+
         // this should probably be rustc, but to make it easy for ourselves, we use cargo instead,
         // as this is a prototype 🥰
 
